@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin - Commandes Naledji</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Administration - Commandes</h1>
+    <p>Entrez le token admin pour voir les commandes.</p>
+    <input id="token" type="password" placeholder="Admin token" />
+    <button id="load">Charger les commandes</button>
+    <div id="list"></div>
+  </div>
+  <script>
+    document.getElementById('load').addEventListener('click', async ()=>{
+      const token = document.getElementById('token').value.trim();
+      if(!token) return alert('Token requis');
+      try{
+        const resp = await fetch('/api/admin/orders?token=' + encodeURIComponent(token));
+        if(!resp.ok) throw new Error('Erreur');
+        const data = await resp.json();
+        const list = document.getElementById('list');
+        list.innerHTML = '';
+        data.orders.forEach(o=>{
+          const div = document.createElement('div');
+          div.className = 'card';
+          div.innerHTML = `<h3>${o.order_id} — ${o.customer_name} (${o.phone})</h3><p>${o.address}, ${o.city}</p><pre>${JSON.stringify(o.product,null,2)}</pre><p>${o.status} • ${new Date(o.created_at).toLocaleString()}</p>`;
+          list.appendChild(div);
+        });
+      }catch(e){ alert('Impossible de charger'); }
+    });
+  </script>
+</body>
+</html>
