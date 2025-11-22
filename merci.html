@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Merci — Naledji</title>
+  <meta name="description" content="Merci pour votre commande chez Naledji. Nous confirmerons bientôt par SMS/WhatsApp.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="Naledji — Accueil">
+        <img src="/assets/logo.svg" alt="Naledji" class="logo" />
+      </a>
+    </div>
+  </header>
+
+  <main class="container section">
+    <h1>Merci pour votre commande</h1>
+    <p id="thank-text">Nous avons bien reçu votre commande. Un numéro de référence vous a été envoyé par SMS/WhatsApp.</p>
+    <p id="order-ref" class="muted"></p>
+    <p>Si vous avez des questions, contactez-nous au <a href="tel:+229XXXXXXXX">+229 XXXXXXXXX</a> ou par WhatsApp.</p>
+    <p><a class="btn-primary" href="/">Retour à l'accueil</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year3"></span> Naledji.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year3').textContent = new Date().getFullYear();
+    const params = new URLSearchParams(location.search);
+    const oid = params.get('order') || '';
+    if(oid){
+      document.getElementById('order-ref').textContent = 'Référence commande: ' + oid;
+    }else{
+      document.getElementById('thank-text').textContent = 'Merci — nous traiterons votre commande sous peu.';
+    }
+  </script>
+</body>
+</html>
